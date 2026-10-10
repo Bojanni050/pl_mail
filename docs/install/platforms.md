@@ -148,6 +148,13 @@ saves re-registering every device later.
 `scheduler`. An install missing it looks completely healthy and quietly never polls, never wakes a
 snoozed thread, never syncs a calendar and never fires a reminder.
 
+## Plesk
+
+A Plesk host is the NAS port problem again, from the other side: Plesk's own nginx holds 80, 443 and
+8443, so the stock `compose.yaml` cannot publish its ports at all. `compose.plesk.yaml` moves the
+web container onto a single loopback port and lets Plesk hold the certificate — see
+[Plesk](plesk.md). Everything else on this page still applies; only the ports change.
+
 ## Things that bite
 
 **Only some of these platforms give you named volumes for free.** The stock `compose.yaml` uses

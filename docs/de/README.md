@@ -50,11 +50,12 @@ wo der Mechanismus dahinter steht.
 | [Docker Compose](install/docker.md) | Der unterstützte Weg, von Anfang bis Ende |
 | [Hinweise zu den Plattformen](install/platforms.md) | Linux, Windows über WSL2, macOS und NAS-Geräte |
 | [Hinter einem Reverse Proxy](install/reverse-proxy.md) | TLS, `APP_PUBLIC_URL`, `TRUSTED_PROXIES` — und was ohne sie kaputtgeht |
+| [Plesk](install/plesk.md) | Nebeneinander mit Plesks eigenem Webserver auf 80/443, Plesk hält das Zertifikat |
 | [Konfigurationsreferenz](install/configuration.md) | Jede Umgebungsvariable, was sie tut und was passiert, wenn sie falsch steht |
 | [Sichern und Wiederherstellen](install/backup-restore.md) | Was zu sichern ist, der Verschlüsselungsschlüssel und die Wiederherstellung auf einem neuen Host |
 | [Konfigurationssicherung](install/config-backup.md) | Einstellungen und Zugangsdaten einer Installation als eine verschlüsselte Datei zu einer anderen tragen |
 | [Aktualisieren](install/upgrading.md) | Migrationen laufen beim Start, was das bedeutet, und wie du erkennst, welcher Build läuft |
-| [Demo-Modus](install/demo-mode.md) | Eine öffentliche Demo betreiben: Wegwerf-Postfächer, Mail nach Drehbuch, und was dabei abgeschaltet wird |
+| [Demo-Modus](../install/demo-mode.md) | Eine öffentliche Demo betreiben: Wegwerf-Postfächer, Mail nach Drehbuch, und was dabei abgeschaltet wird (Seite bisher nur auf Englisch) |
 | [Fehlersuche](install/troubleshooting.md) | Health-Checks, die Warteschlange, Protokolle und die Fehler, die tatsächlich vorgekommen sind |
 
 ## Anbieter

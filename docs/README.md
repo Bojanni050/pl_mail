@@ -48,6 +48,7 @@ mechanism behind it.
 | [Docker Compose](install/docker.md) | The supported path, start to finish |
 | [Platform notes](install/platforms.md) | Linux, Windows via WSL2, macOS, and NAS boxes |
 | [Behind a reverse proxy](install/reverse-proxy.md) | TLS, `APP_PUBLIC_URL`, `TRUSTED_PROXIES`, and what breaks without them |
+| [Plesk](install/plesk.md) | Running beside Plesk's own web server on 80/443, with Plesk holding the certificate |
 | [Configuration reference](install/configuration.md) | Every environment variable, what it does and what happens if it is wrong |
 | [Backup and restore](install/backup-restore.md) | What to back up, the encryption key, and restoring onto a new host |
 | [Configuration backup](install/config-backup.md) | Carrying an install's settings and credentials to another one, as one encrypted file |

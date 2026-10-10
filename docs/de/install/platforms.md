@@ -162,6 +162,14 @@ prüfen ist `scheduler`. Eine Installation ohne ihn sieht vollkommen gesund aus 
 weckt nie eine zurückgestellte Konversation, gleicht nie einen Kalender ab und löst nie eine
 Erinnerung aus.
 
+## Plesk
+
+Ein Plesk-Host ist das Port-Problem der NAS-Geräte noch einmal, von der anderen Seite: Plesks
+eigener nginx hält 80, 443 und 8443, die Standard-`compose.yaml` kann ihre Ports also überhaupt nicht
+veröffentlichen. `compose.plesk.yaml` schiebt den Web-Container auf einen einzigen Loopback-Port und
+lässt Plesk das Zertifikat halten — siehe [Plesk](plesk.md). Alles andere auf dieser Seite gilt
+weiterhin; es ändern sich nur die Ports.
+
 ## Fallstricke
 
 **Nur auf einigen dieser Plattformen bekommst du benannte Volumes geschenkt.** Die Standard-

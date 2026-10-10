@@ -17,6 +17,11 @@ while a dialog or menu is open. On for everyone; Settings → General → Keyboa
 them off per person. No migration.
 [#36](https://github.com/karatektus/pl_mail/issues/36).
 
+**Plesk has its own compose file.** `compose.plesk.yaml` runs the stack beside Plesk's own web
+server instead of against it: FrankenPHP serves plain HTTP in the container, the host publishes one
+`127.0.0.1:8080` port, and Plesk keeps 80, 443 and 8443 and terminates TLS in front. Use it with
+both files — `docker compose -f compose.yaml -f compose.plesk.yaml up -d --wait`. No migration.
+
 ## v0.3.2 — 2026-10-09
 
 ### Security

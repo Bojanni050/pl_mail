@@ -61,6 +61,12 @@ final class ComposeEnvironmentTest extends TestCase
         // that point at documentation domains. It hardcodes the switch, and
         // this is what keeps it hardcoded.
         'compose.demo.yaml',
+        // The Plesk overlay, and it is an app-defining file rather than an
+        // infrastructure one: it sets SERVER_NAME and APP_PUBLIC_URL on `php`
+        // and the worker, which is app configuration, not a port mapping. It
+        // hardcodes APP_ENV: prod for the reason the demo overlay does — a file
+        // an operator runs from a checkout must not let `.env`'s `dev` in.
+        'compose.plesk.yaml',
     ];
 
     /**

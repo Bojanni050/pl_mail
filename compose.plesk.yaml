@@ -1,0 +1,71 @@
+# Plesk, where the host's own web server already owns 80 and 443.
+#
+#   docker compose -f compose.yaml -f compose.plesk.yaml up -d --wait
+#
+# Keep both -f flags on every later `up`, `pull` and `down`, or compose falls
+# back to the stock file and tries to take 80 and 443 again.
+#
+# WHY THIS OVERLAY EXISTS
+# -----------------------
+# Plesk serves its control panel and every hosted site from nginx (and Apache)
+# on 80, 443 and 8443. The stock compose.yaml publishes 80/tcp, 443/tcp and
+# 443/udp on the host, so on a Plesk machine `docker compose up` dies at the
+# first container with "port is already allocated" — or binds a port Plesk is
+# about to use and takes the panel or a customer site down with it.
+#
+# Here FrankenPHP serves plain HTTP on port 80 INSIDE the container and the host
+# publishes that one port on 127.0.0.1:${PLESK_HTTP_PORT:-8080}. Plesk holds the
+# certificate and proxies the domain to it (Websites & Domains → the domain →
+# Docker Proxy Rules, or a hand-written reverse-proxy directive); see
+# docs/install/plesk.md. Nothing in the container issues a certificate, so the
+# self-signed warning every other install meets on first open does not exist
+# here, and no 443 mapping is needed.
+#
+# SERVER_NAME ":80" is the load-bearing line. Left at the stock default
+# (`localhost, :443, php:80`), Caddy answers Plesk's plain-HTTP request with a
+# redirect to https and the browser loops. ":80" tells it to serve plain HTTP for
+# whatever Host arrives. Same line, same reason, as truenas.compose.yaml.
+#
+# Publishing on 127.0.0.1 alone is deliberate: only Plesk's proxy, on the same
+# machine, has any business reaching the app. Widen it to "${PLESK_HTTP_PORT}:80"
+# if Plesk's nginx runs in a container or on another host.
+#
+# !override IS REQUIRED, NOT DECORATION
+# -------------------------------------
+# compose merges the `ports` of two files by CONCATENATION, not replacement, so
+# a plain `ports:` block here would ADD to the stock file's three mappings and
+# leave the 443 ones in place — the exact collision this file exists to avoid.
+# `!override` replaces the whole list with the one mapping below. It is a Compose
+# feature and needs Compose v2.24 or newer, which the Docker engine's bundled
+# Compose and Docker Desktop both are.
+
+x-plesk-env: &plesk-env
+  # Spelled out rather than inherited, for the reason compose.demo.yaml gives: a
+  # file that configures the app services should say which environment it is
+  # configuring them for. ComposeEnvironmentTest holds it to that.
+  APP_ENV: prod
+  # The address Plesk serves the domain at, e.g. https://mail.example.com, with
+  # no trailing slash. Left blank, the setup screen asks for it on first boot and
+  # stores it; set it here to pin it from the environment. It is what is handed
+  # to Google and Microsoft as a callback, and what the Mercure hub URL is
+  # derived from — the one setting that has to be the https address Plesk
+  # answers, not the container's own http port.
+  APP_PUBLIC_URL: ${APP_PUBLIC_URL:-}
+
+services:
+  php:
+    environment:
+      <<: *plesk-env
+      SERVER_NAME: ":80"
+    ports: !override
+      - target: 80
+        published: ${PLESK_HTTP_PORT:-8080}
+        host_ip: 127.0.0.1
+        protocol: tcp
+
+  # The worker builds push subscriptions and the links that go out in mail, so
+  # it needs the same public address the web container has. It gets no
+  # SERVER_NAME: it runs no web server.
+  worker:
+    environment:
+      <<: *plesk-env

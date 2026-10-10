@@ -107,6 +107,7 @@ reads them directly when it assembles `DATABASE_URL`.
 | `NTFY_BASE_URL` | Base URL ntfy hands out in push endpoints. | `http://${SERVER_NAME:-localhost}:${NTFY_PORT:-8090}` | Baked into every endpoint handed out, so changing it later invalidates every existing subscription and every device must re-register. |
 | `NTFY_AUTH_DEFAULT_ACCESS` | ntfy's default access policy. | `read-write` | Open by design — UnifiedPush topics are unguessable and payloads are encrypted to the device — but set it to `deny-all` and create a user if this is exposed to the internet rather than reached over a VPN. |
 | `TEST_HTTP_PORT` | Host port for the test stack in `compose.test.yaml`. | `8001` | Development only. |
+| `PLESK_HTTP_PORT` | Host port the `compose.plesk.yaml` overlay publishes the web container on, bound to `127.0.0.1`. | `8080` | Only read with `-f compose.plesk.yaml`. A port already in use stops the `php` container from starting. See [Plesk](plesk.md). |
 
 **The failure mode here is editing one half of a pair.** `POSTGRES_USER`, `POSTGRES_DB` and
 `POSTGRES_PASSWORD` are read both by the database container at initialisation and by the app when
